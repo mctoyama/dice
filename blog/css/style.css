@@ -1,0 +1,10 @@
+/* Menu style*/
+
+body{
+}
+
+a:link {color: #0000FF}
+a:visited {color: #0000FF}
+a:hover {color:	#0000FF;
+background: #98FB98}
+a:active {color: #0000FF}

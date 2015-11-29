@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!-- -----------------------------------------------------------------------------
+-- Copyright 2015 Marcelo Costa Toyama
+--
+-- This file is part of PixelnDice.
+--
+--    PixelnDice is free software: you can redistribute it and/or modify
+--    it under the terms of the GNU Affero General Public License as published by
+--    the Free Software Foundation, either version 3 of the License, or
+--    any later version.
+--
+--    PixelnDice is distributed in the hope that it will be useful,
+--    but WITHOUT ANY WARRANTY; without even the implied warranty of
+--    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--    GNU Affero General Public License for more details.
+--
+--    You should have received a copy of the GNU Affero General Public License
+--    along with PixelnDice.  If not, see <http://www.gnu.org/licenses/>.
+--
+--------------------------------------------------------------------------------->
+<html lang="en">
+  <meta charset="UTF-8">
+  <head>
+
+    <title>Pixel'n Dice</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/portal.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+
+    <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="/js/portal.js"></script>
+    <script type="text/javascript" src="/js/mustache.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+
+     // init user info
+     $(document).ready(function(){
+
+       // logoff click
+       $("#logoffbtn").click(function(){
+         portal.logoff( function(msg) {
+
+           if( msg.ok ){
+             window.location.pathname = "/";
+           }else{
+             $("#status").html("<font color='red'>"+msg.err+"</font>");
+           }
+
+         });
+       });
+
+       // create campaign click
+       $("#createCampaignBtn").click(function(){
+         portal.submitNewCampaign();
+       });
+
+
+     });
+
+    </script>
+
+  </head>
+
+  <body>
+    <main>
+
+      <section> <!-- Header -->
+
+        <div class="container-fluid">
+          <!-- 1st row -->
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="text-center">
+                Pixel'n Dice
+                <small>
+                  {{{loginBlock}}}
+                </small>
+              </h1>
+            </div>
+          </div>
+        </div>
+        <div id="status"></div>
+
+      </section>
+
+      <div class="container-fluid">
+
+        <!-- campaign column -->
+        <section {{{campaignDivClass}}}>
+          <div class="col-md-6">
+            <h3>Campaigns</h3>
+
+            <div id="campaignDiv">
+              <table>
+                {{#campaignList}}
+                  <div class="row" id="{{campaignId}}">
+                    <div class="col-md-4">
+                      <a href={{openlink}}><span class="glyphicon glyphicon-play"></span>{{name}}</a>
+                    </div>
+
+                    <div class="col-md-8">
+                      <span class="glyphicon glyphicon-remove" onclick="javascript:portal.deleteCampaign('{{campaignId}}');"></span>
+                    </div>
+                  </div>
+                {{/campaignList}}
+              </table>
+            </div>
+
+            <div class="input-group">
+              <input id="inputCampaignName" type="text" class="form-control" placeholder="Create campaign...">
+              <span class="input-group-btn">
+                <button id="createCampaignBtn" class="btn btn-default" type="button">Go!</button>
+              </span>
+            </div><!-- /input-group -->
+
+          </div>
+        </section>
+
+        <section {{{aboutDivClass}}}>
+          <div class="col-md-6">
+
+              <p> <span style="font-size: 150%">
+                  <b>Pixel'n Dice</b> is your new way of playing Role Playing Games over the internet. <br/></span>
+                  Just use your skype or google hangouts for voice and Pixel'n dice for dice rolls and maps. <br/>
+              </p>
+
+              <p>
+                  <span style="font-size: 150%">
+                      <i>But Pixel'n Dice is so simple. It lacks features of others RPG softwares!</i>
+                  </span>
+                  Ok, yes it does, but Pixel'n Dice is <b>Open Source</b>. It means that you can take the source code and help inprove (<a href="http://github.com/mctoyama/dice">Get the source here -> github.com/mctoyama/dice</a>!
+              </p>
+
+          </div>
+        </section>
+
+        <section>
+          <!-- 2nd row -->
+          <div class="col-md-6">
+            <div class="row" id="infoBlock">
+
+              <p>
+                <b>Contribute!!</b> This is free software (<a href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL, v3.0</a>). The source is hosted on github (<a href="http://github.com/mctoyama/dice">github.com/mctoyama/dice</a>) and the aplication on amazon AWS. You can contribute to the project in many ways:
+              </p>
+
+              <p>
+                <ul>
+                    <li>Donate to help pay the costs of the AWS - <b>Bitcoin (XXXXXXXX)</b></li>
+<!--                        <a href="bitcoin:1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH?amount=0.5&label=Agile%20Stack">1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH</a> -->
+                  <li>Submite patchs and modifications: - <a href="http://github.com/mctoyama/dice">github.com/mctoyama/dice</a>
+                  <li>Host yourself a clone of Pixel'n Dice</li>
+                </ul>
+              </p>
+
+              <!--
+              <p {{{settingsDivClass}}}>
+                <b>Settings</b>: <a href="">Account settings</a>
+              </p>
+              -->
+
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+    </main>
+  </body>
+
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!-- -----------------------------------------------------------------------------
+-- Copyright 2015 Marcelo Costa Toyama
+--
+-- This file is part of PixelnDice.
+--
+--    PixelnDice is free software: you can redistribute it and/or modify
+--    it under the terms of the GNU Affero General Public License as published by
+--    the Free Software Foundation, either version 3 of the License, or
+--    any later version.
+--
+--    PixelnDice is distributed in the hope that it will be useful,
+--    but WITHOUT ANY WARRANTY; without even the implied warranty of
+--    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--    GNU Affero General Public License for more details.
+--
+--    You should have received a copy of the GNU Affero General Public License
+--    along with PixelnDice.  If not, see <http://www.gnu.org/licenses/>.
+--
+--------------------------------------------------------------------------------->
+<html lang="en">
+  <meta charset="UTF-8">
+  <head>
+
+    <title>Pixel'n Dice</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+
+    <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="/js/portal.js"></script>
+    <script type="text/javascript" src="/js/mustache.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+
+     $(document).ready( function() {
+
+         $("#createAccountForm").submit(function (e) {
+
+             e.preventDefault();
+
+             if( $("#inputEmail").val() != "" && $("#inputPassword").val() != "" && $("#confirmPassword").val() != "" ){
+
+                 if( $("#inputPassword").val() == $("#confirmPassword").val() ){
+
+                     $("#status").html("<font color='green'>Creating account...</font>");
+
+                     portal.createAccount( "{{{token}}}", $("#inputName").val(), $("#inputLastname").val(), $("#inputEmail").val(), $("#inputPassword").val(), $("#confirmPassword").val(), function(msg) {
+
+                         if( msg.ok == true ){
+                             window.location.pathname = "/";
+                         }else{
+                             $("#status").html("<font color='red'>"+msg.err+"</font>");
+                         }
+
+                     });
+
+                 }else{
+                     $("#status").html("<font color='red'>Passwords must be equal!</font>");
+                 }
+
+             }else{
+                 $("#status").html("<font color='red'>Please, complete the form!</font>");
+             }
+
+         });
+
+         // prevents <ENTER> to submit a form
+         $('#createAccountForm').bind("keyup keypress", function(e) {
+             var code = e.keyCode || e.which;
+             if (code  == 13) {
+                 e.preventDefault();
+                 return false;
+             }
+         });
+
+         $("#inputEmail").val("{{{email}}}");
+         $("#inputEmail").prop('disabled', true);
+
+         console.log("{{{token}}}");
+
+     });
+
+    </script>
+
+  </head>
+
+  <body>
+    <div class="container-fluid">
+
+      <!-- 1st row -->
+      <div class="row">
+        <div class="col-md-12">
+
+          <h1 class="text-center">
+            Pixel'n Dice
+            <small> Create account or <a href="/login"> Login </a> </small>
+          </h1>
+
+        </div>
+      </div>
+
+      <!-- 2nd row -->
+      <div class="row">
+
+        <div class="col-md-4">
+        </div>
+
+        <div class="col-md-4">
+
+          <form id="createAccountForm" role="form">
+            <div class="form-group">
+              <label for="inputName">Name</label> <span id="status"></span>
+              <input name="name" type="text" class="form-control" id="inputName" placeholder="Enter name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="inputLastname">Last name</label>
+              <input name="lastname" type="text" class="form-control" id="inputLastname" placeholder="Enter last name" required>
+            </div>
+            <div class="form-group">
+              <label for="inputEmail">Email address</label>
+              <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword">Password</label>
+              <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Password</label>
+              <input name="confirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
+            </div>
+
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+
+        </div>
+
+        <div class="col-md-4">
+        </div>
+
+      </div> <!-- 2 row -->
+
+      <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+          <span id="debug">
+          </span>
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+
+    </div> <!-- Container fluid -->
+
+  </body>
+
+</html>

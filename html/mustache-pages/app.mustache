@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!-- -----------------------------------------------------------------------------
+-- Copyright 2015 Marcelo Costa Toyama
+--
+-- This file is part of PixelnDice.
+--
+--    PixelnDice is free software: you can redistribute it and/or modify
+--    it under the terms of the GNU Affero General Public License as published by
+--    the Free Software Foundation, either version 3 of the License, or
+--    any later version.
+--
+--    PixelnDice is distributed in the hope that it will be useful,
+--    but WITHOUT ANY WARRANTY; without even the implied warranty of
+--    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--    GNU Affero General Public License for more details.
+--
+--    You should have received a copy of the GNU Affero General Public License
+--    along with PixelnDice.  If not, see <http://www.gnu.org/licenses/.
+--
+--------------------------------------------------------------------------------->
+<html lang="en">
+  <meta charset="UTF-8">
+  <head>
+    <title>Pixel'n Dice</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/rpg-style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-tagsinput.css" />
+
+    <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-tagsinput.js"></script>
+    <script type="text/javascript" src="/js/bootstrap3-typeahead.min.js"></script>
+
+    <script src="/js/portal.js"></script>
+
+    <script src="/js/rpg-world.js"></script>
+    <script src="/js/rpg-token.js"></script>
+    <script src="/js/rpg-view.js"></script>
+    <script src="/js/rpg-shell.js"></script>
+    <script src="/js/rpg-gm.js"></script>
+    <script src="/js/rpg-player.js"></script>
+    <script src="/js/rpg-image-library.js"></script>
+    <script src="/js/rpg-table.js"></script>
+
+  </head>
+
+  <body class="container-fluid" style="max-height:100%">
+
+    <div class="col-xs-12" style="max-height:inherit">
+
+      <!-- leftBox -->
+      <div id="leftBox" class="col-xs-10">
+
+        <!-- map library -->
+        <div id="maps" style="max-height:inherit;" class="container-fluid">
+
+          <h1 class="row col-xs-4 col-xs-offset-4">Maps</h1>
+
+          <!-- create Map input group -->
+          <div class="input-group row col-xs-8 col-xs-offset-2">
+            <input id="inputMapName" type="text" class="form-control" placeholder="Create map...">
+            <span class="input-group-btn">
+              <a class="btn btn-default" href="javascript:rpgGm.createMap();">Go!</a>
+            </span>
+          </div><!-- /input-group -->
+
+          <br/>
+
+          <!-- my map library div -->
+          <div id="my-maps-div" class="row col-xs-8 col-xs-offset-2">
+            <form id="my-maps-form">
+              <table class="table" id="my-maps-table">
+              </table>
+            </form>
+          </div>
+
+        </div>
+
+        <!-- canvas -->
+        <canvas id="canvas" class="hasmenu"></canvas>
+
+        <!-- Image Library -->
+        <div id="imagelibrarypage" style="max-height:inherit;" class="container-fluid">
+
+          <h1 class="row col-xs-4 col-xs-offset-4">Image Library</h1>
+
+          <div class="row col-xs-4 col-xs-offset-4 btn-group" role="group" aria-label="...">
+            <a id="upload-btn" href="javascript:$('#upload-file-div').toggle(); $('#upload-btn').toggleClass('active');" class="btn btn-default active">Upload</a>
+            <a id="search-btn" href="javascript:$('#search-file-div').toggle(); $('#search-btn').toggleClass('active');" class="btn btn-default active">Search</a>
+            <a id="my-library-btn" href="javascript:$('#my-library-div').toggle(); $('#my-library-btn').toggleClass('active');" class="btn btn-default active">My files</a>
+          </div>
+
+
+          <!-- upload form div -->
+          <div id="upload-file-div" class="row col-xs-12">
+
+            <div class="col-xs-6">
+
+              <form id="upload-file-form" class="form">
+
+                <div class="form-group">
+                  <label id="label-upload-file" for="upload-file">File input</label><br/>
+                  <input type="file" id="upload-file">
+                </div>
+
+                <div class="form-group">
+                  <label id="label-upload-file-tags" for="upload-file-tags">TAGS</label><br />
+                  <input type="text" data-role="tagsinput" class="form-control" id="upload-file-tags" placeholder="Enter tags">
+                </div>
+
+                <a class="btn btn-default" href="javascript:rpgImageLibrary.submitImage();">Upload</a>
+
+              </form>
+
+            </div>
+
+            <div class="col-xs-6">
+              <div id="progress-bar-file-upload"></div>
+            </div>
+
+            <div class="row col-xs-12">
+              <hr/>
+            </div>
+          </div>
+
+          <!-- search file div -->
+          <div id="search-file-div" class="row col-xs-12">
+
+            <form id="upload-file-form" class="form">
+
+              <div class="form-group">
+                <label id="label-search-file-tags" for="search-file-tags">Search TAGS</label><br />
+                <input type="text" data-role="tagsinput" class="form-control" id="search-file-tags" placeholder="Enter tags">
+              </div>
+
+              <a class="btn btn-default" href="javascript:rpgImageLibrary.searchImage();">Search!</a>
+
+            </form>
+
+            <div id="search-file-results-div" class="row col-xs-12">
+            </div>
+
+            <hr/>
+          </div>
+
+          <!-- my library  div -->
+          <div id="my-library-div" class="row col-xs-12">
+
+            <hr/>
+          </div>
+
+        </div>
+
+        <!-- token div -->
+        <div id="tokenpage" class="row col-xs-12">
+            <h1>Token div</h1>
+        </div>
+
+        <!-- next page div -->
+        <div id="nextpage" class="row col-xs-12">
+        </div>
+
+        <!-- mainpage -->
+        <div id="mainpage" style="max-height:inherit;">
+            <h1> Welcome to Pixel'n Dice <small>Donate</small></h1>
+            <p>Bitcoin</p>
+                <!--                        <a href="bitcoin:1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH?amount=0.5&label=Agile%20Stack">1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH</a> -->
+            <p>How to use:
+                <ul>
+                    <li>Type: <b><i># 3d6</i></b> to roll dices!
+                        <ul>
+                            <li>Marcelo is rolling: 3d6 = (1 + 4 + 1) = 6</li>
+                        </ul>
+                    </li>
+                    <br/>
+                    <li>Type: <b><i>#gm 3d6</i></b> to roll dices that only GM can see!
+                        <ul>
+                            <li>Marcelo is rolling only to GM: 3d6 = (4 + 5 + 3) = 12</li>
+                        </ul>
+                    </li>
+                </ul>
+            </p>
+
+            <a id="menu-canvas" class="btn-group" role="group" aria-label="..." href="javascript:rpgTable.displayPage('canvas');">Let's play!</a>
+
+        </div>
+
+      </div>
+
+      <!-- right box -->
+      <div id="rightBox" class="col-xs-2" style="max-height:inherit">
+
+        <div id="shell-display" class="row col-xs-12" style="overflow-y:scroll; overflow-x:hidden; max-height:inherit;"></div>
+
+        <div class="row col-xs-12 btn-toolbar" role="toolbar" aria-label="...">
+          <a id="menu-canvas" class="btn-group" role="group" aria-label="..." href="javascript:rpgTable.displayPage('canvas');"><span class="glyphicon glyphicon-th" aria-hidden="true"></span></a>
+          <a id="menu-maps" class="btn-group" role="group" aria-label="..." href="javascript:rpgTable.displayPage('maps'); javascript:rpgGm.listMap();" style="display: none;"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></a>
+          <a id="menu-library" class="btn-group" role="group" aria-label="..." href="javascript:rpgTable.displayPage('imagelibrarypage'); javascript:rpgImageLibrary.library();"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></a>
+<!--          <a id="menu-settings" class="btn-group" role="group" aria-label="..." href="javascript:rpgTable.displayPage('tokenpage');"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a> -->
+<!--          <a id="menu-settings" class="btn-group" role="group" aria-label="..."><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a> -->
+        </div>
+
+        <textarea id="shell-input" class="row col-xs-12" style="height:60px; bottom:0px; right:0px; position:relative;"></textarea>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+
+     // document ready functions
+     $(document).ready(function(){
+
+         // display main page
+         rpgTable.displayPage("mainpage");
+
+       // init tagsinput
+       $("#upload-file-tags").tagsinput({
+         trimValue: true
+       });
+
+       $("#search-file-tags").tagsinput({
+         trimValue: true
+       });
+
+       // init tagsinput
+
+       // resize UI
+       var bodyHeight = $(window).height()-30;
+       var shellInputHeight = 60;
+
+       $("body").css('max-height', (bodyHeight+"px"));
+       $("#shell-input").css('height', (shellInputHeight+"px"));
+
+       $("#shell-display").css('height', ((bodyHeight-shellInputHeight) +"px"));
+
+       $( window ).resize(function() {
+
+         bodyHeight = $(window).height()-30;
+         shellInputHeight = 60;
+
+         $("body").css('max-height', (bodyHeight+"px"));
+         $("#shell-input").css('height', (shellInputHeight+"px"));
+
+         $("#shell-display").css('height', ((bodyHeight-shellInputHeight) +"px"));
+
+       });
+
+       // init websockets
+       rpgShell.init("localhost:9999");
+
+       // game metadata
+       rpgTable.set("accountId","{{accountId}}");
+       rpgTable.set("email","{{email}}");
+       rpgTable.set("token","{{token}}");
+
+       rpgTable.set("gmId","{{gmId}}");
+
+       rpgTable.set("roomId","{{roomId}}");
+
+       rpgTable.set("campaignId","{{campaignId}}");
+
+       // setting GM panel
+       if( rpgTable.amIGM() ){
+         $("#menu-maps").show();
+       }
+
+       // game loop
+       rpgTable.gameLoop();
+
+       // shell input
+       $("#shell-input").keydown(rpgShell.shellInput);
+
+       // initialize world
+       var emptyWorld = rpgWorld.create();
+       rpgWorld.setJSON(-1,JSON.stringify(emptyWorld));
+
+       // initilialize canvas
+       rpgWorld.setMapId(-1);
+       rpgView.initCanvas("canvas");
+
+       // initialize GM- it waits fo shell protocol initialization
+       rpgGm.init();
+
+     });
+
+    </script>
+
+  </body>
+</html>

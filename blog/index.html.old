@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Marcelo Costa Toyama</title>
+</head>
+
+
+<body>
+
+<div style="text-align: center;">
+<h1>Marcelo Costa Toyama</h1>
+
+<div style="text-align: left;"><a href="index.html">[Home]</a><a href="tutorial.html">[Tutoriais]</a><a href="links.html">[Links]</a><a href="latex.html">[Latex]</a><a href="artigos.html">[Artigos]</a><a href="haskell.html">[Haskell]</a>
+<br>
+
+<hr style="width: 100%; height: 2px;">
+<h2>Curriculum Vitae
+&nbsp;&nbsp;&nbsp;&nbsp; <br>
+
+</h2>
+
+E-Mail: <a href="mailto:mctoyama@inf.ufrgs.br">mctoyama@inf.ufrgs.br</a>
+<ul>
+
+  <li><b>2004 - Atualmente:</b> Mestrado em Ci&ecirc;ncia da
+Computa&ccedil;&atilde;o - Intelig&ecirc;ncia Artificial <br>
+
+Universidade Federal do Rio Grande do Sul, Porto Alegre - RS, Brasil <br>
+
+    <br>
+
+  </li>
+
+  <li><b>1999 - 2003:</b> Bacharelado em Ci&ecirc;ncia da
+Computa&ccedil;&atilde;o <br>
+
+Universidade de S&atilde;o Paulo, S&atilde;o Carlos - SP, Brasil. <br>
+
+  </li>
+
+</ul>
+
+<hr style="width: 100%; height: 2px;">
+<h2>&Aacute;reas de Interesse</h2>
+
+<ul>
+
+  <li> Pedestrian and Evacuation Dynamics</li>
+
+  
+  <li> Artificial Life</li>
+
+  <li> Multiagent Systems</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</body>
+</html>
