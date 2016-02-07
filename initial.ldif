@@ -1,0 +1,20 @@
+dn: dc=pixelndice,dc=org
+dc: pixelndice
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: pixelndice.org
+
+dn: ou=group,dc=pixelndice,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: group
+description: Group respository 
+structuralObjectClass: organizationalUnit
+
+dn: ou=users,dc=pixelndice,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: users
+description: User repository
+structuralObjectClass: organizationalUnit

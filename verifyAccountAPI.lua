@@ -56,7 +56,7 @@ function VerifyAccountAPI.post()
 
          daemonAPI.sendEmail(string.lower(args["email"]),
                              "Pixelndice.org account creation!",
-                             template.render("verify-email-account-creation.mustache", opts):gsub("\n","")
+                             template.render("verify-email-account-creation.mustache", opts)
          )
 
          ngx.say( cjson.encode({ok=true}) )
