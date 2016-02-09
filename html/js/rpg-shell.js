@@ -30,7 +30,7 @@ var rpgShell = (function() {
 
         ///////////////////////////////////////////////////////////////////////
         init: function(url){
-            ws = new WebSocket("ws://"+url,"diceProtocol");
+            ws = new WebSocket("wss://"+url,"diceProtocol");
             ws.onopen = rpgShell.onopen;
             ws.onmessage = rpgShell.onmessage;
             ws.onclose = rpgShell.onclose;
@@ -93,6 +93,13 @@ var rpgShell = (function() {
                             var cmd = {FROM: rpgTable.get("accountId"), TO:"ALL", CMD: "QUERYMAP"};
                             ws.send(JSON.stringify(cmd));
                         }
+
+			var currentLocation = window.location;
+			var fullPath = "https://"+currentLocation.hostname+"/"+currentLocation.pathname+"/"+currentLocation.search;
+
+			var outMsg = "Share this link to play with your friends! <a href='"+fullPath+"'>"+fullPath+"</a>";
+
+			rpgShell.displayMessage(outMsg);
                     }
 
                 }else{
