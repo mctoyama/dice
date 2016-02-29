@@ -28,31 +28,15 @@ Dice uses a number of open source projects to work properly:
 
 ### Installation
 
-- Install openresty
-- Install redis-server
-- Install lua5.1 -- Openresty only works with lua5.1
-- Install lua-socket
-- Install lua-redis
-
+See INSTALL.md
 
 ### Running web aplication
 
-```sh
-$ cd /var/www/dicesocket
-$ lua server.lua
-```
-
-```sh
-$ cd /var/www/dice
-$ ./restart.sh
-```
-
-```sh
-$ cd /var/www/dicedaemon
-$ lua server.lua
-```
+See INSTALL.md
 
 ### TODO v0.1
+- add border to tokens - to easy selection and resize
+- add turn widget
 - saves player token json data (future use with lua scripts)
 - Allow player scripts on lua (editor online - https://ace.c9.io)
 

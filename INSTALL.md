@@ -90,7 +90,7 @@ $ git clone git://git.zx2c4.com/lualdap
 $ cd lualdap/
 
 $ emacs Makefile
-# change lines 
+# change lines
 # CFLAGS += $(shell pkg-config --cflags lua5.1)
 # LDLIBS += $(shell pkg-config --libs lua5.1) -lldap
 # LUA_MODULES := $(shell pkg-config --variable=INSTALL_CMOD lua5.1)
@@ -105,7 +105,7 @@ Run dicewebsocket
 $ cd /var/www/dicewebsocket
 $ screen
 $ lua server.lua
-$ “Ctrl-a” “d”
+$ Ctrl-a d
 ```
 
 Run dicedaemon
@@ -113,11 +113,13 @@ Run dicedaemon
 $ cd /var/www/dicedaemon
 $ screen
 $ lua server.lua
-$ “Ctrl-a” “d”
+$ Ctrl-a d
 ```
 
 Run dice
 ```
+$ mkdir /var/www/dice/accounts
+$ chown noboy. /var/www/dice/accounts
 $ cd /var/www/dice
 $ ./restart.sh
 ```
