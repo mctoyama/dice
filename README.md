@@ -35,7 +35,6 @@ See INSTALL.md
 See INSTALL.md
 
 ### TODO v0.1
-- add border to tokens - to easy selection and resize
 - add turn widget
 - saves player token json data (future use with lua scripts)
 - Allow player scripts on lua (editor online - https://ace.c9.io)

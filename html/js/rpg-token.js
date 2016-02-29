@@ -24,7 +24,7 @@
 // token data structure
 var rpgToken = (function() {
 
-  var iconSize = 32; // border for icons 
+  var iconSize = 32; // border for icons
   var cogImg = "/images/cog.png";
   var upImg = "/images/arrow-up.png";
   var downImg = "/images/arrow-down.png";
@@ -91,7 +91,7 @@ var rpgToken = (function() {
               jQuery.inArray( "ALL", tk.accessList) != -1);
 
     },
-    ///////////////////////////////////////////////////////////////////////    
+    ///////////////////////////////////////////////////////////////////////
     // loads the image api after a json.parse
     load: function(tk){
 
@@ -148,7 +148,7 @@ var rpgToken = (function() {
         return ret;
       };
     },
-    ///////////////////////////////////////////////////////////////////////    
+    ///////////////////////////////////////////////////////////////////////
     // returns true if click in inside the token
     click: function(tk,pos){
 
@@ -232,6 +232,16 @@ var rpgToken = (function() {
           if( rpgToken.access(tk,rpgTable.get("accountId")) ){
             context.drawImage(tk.cog,tk.left+tk.width,tk.top);
             context.drawImage(tk.del,tk.left+tk.width, tk.top+iconSize);
+
+            // draw token border
+            context.beginPath();
+            context.moveTo(tk.left,tk.top);
+            context.lineTo(tk.left+tk.width,tk.top);
+            context.lineTo(tk.left+tk.width,tk.top+tk.height);
+            context.lineTo(tk.left,tk.top+tk.height);
+            context.lineTo(tk.left,tk.top);
+            context.stroke();
+
           }
           if( rpgTable.amIGM() ) {
 
