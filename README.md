@@ -36,6 +36,7 @@ See INSTALL.md
 
 ### TODO v0.1
 - add turn widget
+= remove unused CSS style 
 - saves player token json data (future use with lua scripts)
 - Allow player scripts on lua (editor online - https://ace.c9.io)
 

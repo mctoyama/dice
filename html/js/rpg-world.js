@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------
-// Copyright 2015 Marcelo Costa Toyama
+// Copyright 2016 Marcelo Costa Toyama
 //
 // This file is part of PixelnDice.
 //
@@ -37,13 +37,13 @@ var rpgWorld = (function() {
   var _mapId = null;
 
   // selected token obj
-  var _selectedToken = {uuid:"", offsetX:0, offsetY:0, lastLeft:0, lastTop:0, lastWidth:0, lastHeight:0};
+  var _selectedToken = {uuid:"", offsetX:0, offsetY:0, lastLeft:0, lastTop:0, lastWidth:0, lastHeight:0, imgURI:""};
 
   // mouse coordinates - in world coordinates
   var _mouse = {lastX:0, lastY:0, x:0, y:0, mouseleftdown: false, mouserightdown: false, mousemiddledown: false, oncanvas: false, cursor:""};
 
   // events happening
-  var _eventType = {moveToken: "moveToken", resizeToken: "resizeToken", clickUp: "clickTokenUpLayer", clickDown: "clickTokenDownLayer", deleteToken: "deleteToken", clickTokenSettings: "clickTokenSettings"};
+  var _eventType = {moveToken: "moveToken", resizeToken: "resizeToken", clickUp: "clickTokenUpLayer", clickDown: "clickTokenDownLayer", deleteToken: "deleteToken", clickTokenSettings: "clickTokenSettings", alarmToken: "alarmToken"};
   var _event = null;
 
   return {
@@ -61,7 +61,7 @@ var rpgWorld = (function() {
     ///////////////////////////////////////////////////////////////////////
     // It creates an empty world
     create: function(){
-      var ret = {width: 2048, height: 1280, tokenList:{}, selectedLayer: 1};
+      var ret = {width: 2048, height: 1280, tokenList:{}, selectedLayer: 1, turn:[], displayTurn:false};
       ret.tokenList[0] = [];
       ret.tokenList[1] = [];
       ret.tokenList[2] = [];
@@ -99,7 +99,8 @@ var rpgWorld = (function() {
           ev === _eventType.clickUp ||
           ev === _eventType.clickDown ||
           ev === _eventType.deleteToken ||
-          ev === _eventType.clickTokenSettings
+          ev === _eventType.clickTokenSettings ||
+          ev === _eventType.alarmToken
       ){
 
         _event = ev;
@@ -116,6 +117,10 @@ var rpgWorld = (function() {
     ///////////////////////////////////////////////////////////////////////
     getSelectedTokenUUID: function(){
       return(_selectedToken.uuid);
+    },
+    ///////////////////////////////////////////////////////////////////////
+    setSelectedTokenArg: function(name,val){
+      _selectedToken[name] = val;
     },
     ///////////////////////////////////////////////////////////////////////
     setCursor: function(val){
@@ -147,6 +152,23 @@ var rpgWorld = (function() {
     getLayer: function(){
 
       return _world[_mapId].selectedLayer;
+    },
+    ///////////////////////////////////////////////////////////////////////
+    setTurn: function(earray){
+      _world[_mapId].turn = earray;
+    },
+    ///////////////////////////////////////////////////////////////////////
+    getTurn: function(){
+      return( _world[_mapId].turn );
+    },
+    ///////////////////////////////////////////////////////////////////////
+    setDisplayTurn: function(flag){
+      if( _world[_mapId] !== undefined )
+        _world[_mapId].displayTurn = flag;
+    },
+    ///////////////////////////////////////////////////////////////////////
+    getDisplayTurn: function(){
+      return( _world[_mapId].displayTurn );
     },
     ///////////////////////////////////////////////////////////////////////
     // draw grid
@@ -283,6 +305,11 @@ var rpgWorld = (function() {
               }else if( _event === _eventType.clickTokenSettings ){ // token settings
 
                 rpgWorld.displaySettings();
+                return(true);
+
+              }else if( _event === _eventType.alarmToken ){ // alarm token
+
+                rpgTurn.add(_selectedToken.uuid,_selectedToken.imgURI,0,true);
                 return(true);
               }
 

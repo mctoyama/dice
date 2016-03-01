@@ -76,6 +76,9 @@ var rpgTable = (function() {
     ///////////////////////////////////////////////////////////////////////
     displayPage: function (page){
 
+      if($("#canvas").is(":visible"))
+        rpgWorld.setDisplayTurn( $("#turn-div").is(":visible") );
+
       $("#maps").hide();
       $("#canvas").hide();
       $("#mainpage").hide();
@@ -84,14 +87,22 @@ var rpgTable = (function() {
 
       if( page == "maps" ){
         $("#maps").show();
+        $("#turn-div").hide();
       }else if( page === "canvas" ){
         $("#canvas").show();
+
+        if( rpgWorld.getDisplayTurn() )
+          $("#turn-div").show();
+
       }else if( page === "mainpage" ){
         $("#mainpage").show();
+        $("#turn-div").hide();
       }else if( page === "imagelibrarypage" ){
         $("#imagelibrarypage").show();
+        $("#turn-div").hide();
       }else if( page === "tokenpage" ){
         $("#tokenpage").show();
+        $("#turn-div").hide();
       }
     },
     ///////////////////////////////////////////////////////////////////////

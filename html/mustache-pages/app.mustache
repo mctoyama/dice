@@ -29,7 +29,7 @@
     <link rel="stylesheet" type="text/css" href="/css/jquery-ui-1.12.0.structure.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/jquery-ui-1.12.0.min.css" />
 
-    <script type="text/javascript" src="/js/jquery-ui-1.12.0.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-2.2.1.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap-tagsinput.js"></script>
     <script type="text/javascript" src="/js/bootstrap3-typeahead.min.js"></script>
@@ -45,6 +45,7 @@
     <script src="/js/rpg-player.js"></script>
     <script src="/js/rpg-image-library.js"></script>
     <script src="/js/rpg-table.js"></script>
+    <script src="/js/rpg-turn.js"></script>
 
   </head>
 
@@ -189,6 +190,30 @@
 
         </div>
 
+        <!-- turn div -->
+        <div id="turn-div" class="panel panel-default" style="width:200px; height:300px; position:absolute; left:100px; top: 150px;" hidden>
+          <!-- Default panel contents -->
+          <div id="turn-panel-header" class="panel-heading"">Turn
+            <a id="turn-ascend" class="btn-group" role="group" aria-label="..." href="javascript:rpgTurn.ascend(true);" style="display:none;"><span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span></a>
+            <a id="turn-descend" class="btn-group" role="group" aria-label="..." href="javascript:rpgTurn.descend(true);" style="display:none;"><span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a>
+            <a id="turn-next" class="btn-group" role="group" aria-label="..." href="javascript:rpgTurn.next(true);" style="display:none;"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></a>
+
+            <a id="button-close-turn-div" style="position:absolute; right:16px; display:none;" href="javascript:rpgTurn.toggle();"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+          </div>
+
+          <div id="turn-panel-body" class="panel-body" style="width:inherit; overflow-y:scroll; overflow-x:hidden; max-height:inherit;">
+
+            <table id="turn-table" style="width:inherit; max-height:inherit;">
+            </table>
+
+          </div>
+
+          <div id="turn-resize-icon" style="position:absolute; right:0px; bottom:0px">
+            <span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span>
+          </div>
+
+        </div>
+
       </div>
 
       <!-- right box -->
@@ -201,7 +226,9 @@
           <a id="menu-maps" class="btn-group" role="group" aria-label="..." href="javascript:rpgTable.displayPage('maps'); javascript:rpgGm.listMap();" style="display: none;"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></a>
           <a id="menu-library" class="btn-group" role="group" aria-label="..." href="javascript:rpgTable.displayPage('imagelibrarypage'); javascript:rpgImageLibrary.library();"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></a>
 <!--          <a id="menu-settings" class="btn-group" role="group" aria-label="..." href="javascript:rpgTable.displayPage('tokenpage');"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a> -->
-<!--          <a id="menu-settings" class="btn-group" role="group" aria-label="..."><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a> -->
+          <!--          <a id="menu-settings" class="btn-group" role="group" aria-label="..."><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a> -->
+          <a id="menu-turn" class="btn-group" role="group" aria-label="..." href="javascript:rpgTurn.toggle();" style="display:none;"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></a>
+
         </div>
 
         <textarea id="shell-input" class="row col-xs-12" style="height:60px; bottom:0px; right:0px; position:relative;"></textarea>
@@ -214,8 +241,8 @@
      // document ready functions
      $(document).ready(function(){
 
-         // display main page
-         rpgTable.displayPage("mainpage");
+       // display main page
+       rpgTable.displayPage("mainpage");
 
        // init tagsinput
        $("#upload-file-tags").tagsinput({
@@ -266,6 +293,11 @@
        // setting GM panel
        if( rpgTable.amIGM() ){
          $("#menu-maps").show();
+         $("#menu-turn").show();
+         $("#button-close-turn-div").show();
+         $("#turn-ascend").show();
+         $("#turn-descend").show();
+         $("#turn-next").show();
        }
 
        // game loop
@@ -284,6 +316,18 @@
 
        // initialize GM- it waits fo shell protocol initialization
        rpgGm.init();
+
+       // turn div
+       $("#turn-div").draggable();
+       $("#turn-div").resizable({
+         minHeight: 300,
+         minWidth: 200,
+         resize: function( event, ui ) {
+
+           $("#turn-panel-body").css('height', $("#turn-div").innerHeight() - $("#turn-panel-header").outerHeight() - $("#turn-resize-icon").outerHeight() );
+           $("#turn-table").css('width', $("#turn-panel-body").innerWidth() - 32);
+         },
+       });
 
      });
 

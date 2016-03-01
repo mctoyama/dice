@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------
-// Copyright 2015 Marcelo Costa Toyama
+// Copyright 2016 Marcelo Costa Toyama
 //
 // This file is part of PixelnDice.
 //
@@ -29,6 +29,7 @@ var rpgToken = (function() {
   var upImg = "/images/arrow-up.png";
   var downImg = "/images/arrow-down.png";
   var delImg = "/images/cross.png";
+  var alarmImg = "/images/alarm.png";
 
   return {
 
@@ -63,6 +64,8 @@ var rpgToken = (function() {
                    up: null,
                    down:null,
                    del: null,
+                   alarm: null,
+                   turnHover: false,
       };
 
       // toJSON function
@@ -77,6 +80,7 @@ var rpgToken = (function() {
         ret.up = null;
         ret.down = null;
         ret.del = null;
+        ret.alarm = null;
 
         return ret;
       };
@@ -132,6 +136,11 @@ var rpgToken = (function() {
       tk.del.onload = function(){};
       tk.del.src = delImg;
 
+      // loads alarm icon
+      tk.alarm = new Image();
+      tk.alarm.onload = function(){};
+      tk.alarm.src = alarmImg;
+
       // toJSON function
       tk.toJSON = function(){
 
@@ -144,6 +153,7 @@ var rpgToken = (function() {
         ret.up = null;
         ret.down = null;
         ret.del = null;
+        ret.alarm = null;
 
         return ret;
       };
@@ -162,7 +172,7 @@ var rpgToken = (function() {
               tk.top <= pos.y && pos.y < tk.top+iconSize){
 
                 rpgWorld.setEventType(t.clickUp);
-                rpgWorld.setSelectedToken(tk.uuid)
+                rpgWorld.setSelectedToken(tk.uuid);
                 return(false);
               }
         }
@@ -173,7 +183,7 @@ var rpgToken = (function() {
               tk.top+tk.height-iconSize <= pos.y && pos.y <= tk.top+tk.height){
 
                 rpgWorld.setEventType(t.clickDown);
-                rpgWorld.setSelectedToken(tk.uuid)
+                rpgWorld.setSelectedToken(tk.uuid);
                 return(false);
               }
         }
@@ -185,36 +195,48 @@ var rpgToken = (function() {
             tk.top + tk.height - size <= pos.y && pos.y <= tk.top + tk.height + size ){
 
               rpgWorld.setEventType(t.resizeToken);
-              rpgWorld.setSelectedToken(tk.uuid)
+              rpgWorld.setSelectedToken(tk.uuid);
               return(false);
-            }
+        }
 
         // click move
         if( tk.left <= pos.x && pos.x <= tk.left+tk.width &&
             tk.top <= pos.y && pos.y <= tk.top+tk.height ){
 
               rpgWorld.setEventType(t.moveToken);
-              rpgWorld.setSelectedToken(tk.uuid)
+              rpgWorld.setSelectedToken(tk.uuid);
               return(false);
-            }
+        }
 
         // delete token
         if( tk.left+tk.width <= pos.x && pos.x <= tk.left+tk.width+iconSize &&
-            tk.top+iconSize <= pos.y && pos.y <= tk.top+(2*iconSize) ){
+            tk.top <= pos.y && pos.y <= tk.top+iconSize ){
 
               rpgWorld.setEventType(t.deleteToken);
-              rpgWorld.setSelectedToken(tk.uuid)
+              rpgWorld.setSelectedToken(tk.uuid);
               return(false);
-            }
+        }
 
         // token settings
         if( tk.left+tk.width <= pos.x && pos.x <= tk.left+tk.width+iconSize &&
-            tk.top <= pos.y && pos.y <= tk.top + iconSize ){
+            tk.top+iconSize <= pos.y && pos.y <= tk.top + (2*iconSize) ){
 
               rpgWorld.setEventType(t.clickTokenSettings);
-              rpgWorld.setSelectedToken(tk.uuid)
+              rpgWorld.setSelectedToken(tk.uuid);
               return(false);
-            }
+        }
+
+        // alarm token
+        if( tk.left+tk.width <= pos.x && pos.x <= tk.left+tk.width+iconSize &&
+            tk.top+(2*iconSize) <= pos.y && pos.y <= tk.top + (3*iconSize) ){
+
+              rpgWorld.setEventType(t.alarmToken);
+              rpgWorld.setSelectedToken(tk.uuid);
+              rpgWorld.setSelectedTokenArg("imgURI",tk.src);
+              return(false);
+        }
+
+
       }
 
       return false;
@@ -228,10 +250,33 @@ var rpgToken = (function() {
         context.save();
         context.drawImage(tk.img,tk.left,tk.top,tk.width,tk.height);
 
+        if( tk.turnHover ){
+
+          context.save();
+          context.beginPath();
+          context.moveTo(tk.left,tk.top);
+          context.lineTo(tk.left+tk.width,tk.top);
+          context.lineTo(tk.left+tk.width,tk.top+tk.height);
+          context.lineTo(tk.left,tk.top+tk.height);
+          context.lineTo(tk.left,tk.top);
+          context.lineWidth = 8;
+          context.strokeStyle = '#ff0000';
+          context.stroke();
+          context.restore();
+
+        }
+
         if( tk.hover === true ){
           if( rpgToken.access(tk,rpgTable.get("accountId")) ){
-            context.drawImage(tk.cog,tk.left+tk.width,tk.top);
-            context.drawImage(tk.del,tk.left+tk.width, tk.top+iconSize);
+
+            // draw del icon
+            context.drawImage(tk.del,tk.left+tk.width, tk.top);
+
+            // draw settings
+            context.drawImage(tk.cog,tk.left+tk.width,tk.top+iconSize);
+
+            // draw alarm
+            context.drawImage(tk.alarm,tk.left+tk.width,tk.top+(2*iconSize));
 
             // draw token border
             context.beginPath();

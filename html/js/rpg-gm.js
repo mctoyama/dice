@@ -29,7 +29,8 @@ var rpgGm = (function(){
 
         if( !rpgShell.ready() ){
 
-          setTimeout(rpgGm.init,500);
+          setTimeout(rpgGm.init,3000);
+
         }else{
 
           $.ajax({
